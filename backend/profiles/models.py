@@ -27,3 +27,42 @@ class Experience(models.Model):
 
     def __str__(self):
         return self.user.username + '-' + self.company
+
+class Skill(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    description = models.TextField(max_length=200) # i reckon, this could be changed to optional.
+
+    class Categories(models.TextChoices):
+        SOFT = "SOFT", "Soft"
+        TECH = "TECH", "Tech"
+        PRACTICAL = "PRACTICAL", "Practical"
+        EXTRA = "EXTRA", "Extra"
+
+    category = models.CharField(max_length=9, choices=Categories.choices)
+
+    def __str__(self):
+        return f"{self.name} - {self.category}"
+
+class Education(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    course = models.CharField(max_length=100)
+    duration = models.IntegerField()
+    institution = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f"{self.course} - {self.institution}"
+
+class Certification(models.Model): # TODO: optional; will implement if it's relevant.
+    pass
+
+class TechStack(models.Model):
+    tech_name = models.CharField(max_length=50)
+class Projects(models.Model):
+    title = models.CharField(max_length=100)
+    tech_stack = models.ForeignKey(TechStack, on_delete=models.CASCADE)
+    github = models.URLField(blank=True, null=True) # optional.
+    live_link = models.URLField(blank=True, null=True) # optional.
+
+    def __str__(self):
+        return self.title

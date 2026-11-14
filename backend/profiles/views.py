@@ -2,8 +2,8 @@ from rest_framework.generics import ListCreateAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import ValidationError
 
-from .models import Profile, Experience
-from .serializers import ProfileSerializer, ExperienceSerializer
+from .models import Profile, Experience, Skill
+from .serializers import ProfileSerializer, ExperienceSerializer, SkillSerializer
 
 
 # list/create view.
@@ -28,6 +28,16 @@ class ExperienceView(ListCreateAPIView):
 
     def get_queryset(self):
         return Experience.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+class SkillView(ListCreateAPIView):
+    serializer_class = SkillSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Skill.objects.filter(user=self.request.user) 
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
