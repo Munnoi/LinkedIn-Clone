@@ -58,9 +58,10 @@ class Certification(models.Model): # TODO: optional; will implement if it's rele
 
 class TechStack(models.Model):
     tech_name = models.CharField(max_length=50)
-class Projects(models.Model):
+class Project(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
-    tech_stack = models.ForeignKey(TechStack, on_delete=models.CASCADE)
+    tech_stack = models.ManyToManyField(TechStack)
     github = models.URLField(blank=True, null=True) # optional.
     live_link = models.URLField(blank=True, null=True) # optional.
 
