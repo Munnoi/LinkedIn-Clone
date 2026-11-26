@@ -7,6 +7,7 @@ import Footer from "./components/Footer";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import TestPage from "./components/TestPage";
+import ProtectedRoute from "./routes/ProtectedRoute";
 
 function LandingPage() {
   return (
@@ -27,7 +28,9 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/testpage" element={<TestPage />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/testpage" element={<TestPage />} />
+        </Route>
       </Routes>
     </div>
   );

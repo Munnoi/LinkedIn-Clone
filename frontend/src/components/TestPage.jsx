@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const API_URL = "http://127.0.0.1:8000/api"
+import { API_URL } from "../api/config";
 
 const TestPage = () => {
   const [profileInfo, setProfileInfo] = useState(null);
+
+  const nav = useNavigate();
 
   const fetchProfileInfo = async () => {
     const resp = await fetch(`${API_URL}/profiles/me/`, {
@@ -29,9 +32,17 @@ const TestPage = () => {
     fetchProfileInfo();
   }, []);
 
+  const logout = () => {
+    localStorage.removeItem("access");
+    nav("/login"); // can't we remove this line?
+  }
+
   return (
     <>
-      <div>You're logged in!</div>
+      <div className="flex items-center justify-between">
+        <h2>You're logged in!</h2>
+        <button type="button" onClick={logout}>Logout</button>
+      </div>
       <div>
         <h2>My profile info:</h2>
         <ul className="bg-green-400">
